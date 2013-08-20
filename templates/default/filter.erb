@@ -1,0 +1,14 @@
+##
+## Chef Managed
+##
+
+# Let people query the stats interface
+<%= node[:tinyproxy][:conf]["StatHost"].gsub(/\"|\'/,"") unless node[:tinyproxy][:conf]["StatHost"].nil? %>
+
+<% @filters.sort.each do |group, rules| -%>
+# <%= group %>
+<% rules.each do |rule| -%>
+<%= rule %>
+<% end -%>
+
+<% end -%>
