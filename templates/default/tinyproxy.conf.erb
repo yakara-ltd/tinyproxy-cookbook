@@ -2,8 +2,10 @@
 ## Managed by Chef
 ##
 
-<% 
-  config = ''
+<%
+
+config=''
+
 node[:tinyproxy][:conf].sort.each do |setting, value| 
   if !value.nil? and value != ''
     if value.is_a? Array
@@ -15,6 +17,6 @@ node[:tinyproxy][:conf].sort.each do |setting, value|
     end 
   end 
 end
--%> 
 
-<%= config %>
+-%> 
+<%= config -%>
