@@ -17,8 +17,18 @@ end
 # things being set to nil
 filter_file = node[:tinyproxy][:conf]["Filter"]
 if(not filter_file.nil? and not filter_file.tr('"\'', '').empty? )
+  source = {}
   filters = {}
-  data_bag_item('tinyproxy', 'filter_rules').reject {|k, v| k == 'id' }.each do |group, rules|
+
+  if Chef::DataBag.list.key?('tinyproxy') and data_bag('tinyproxy').key?('filter_rules')
+    source.merge! data_bag_item('tinyproxy', 'filter_rules').reject { |k, v| k == 'id' }
+  end
+
+  if node[:tinyproxy][:filters]
+    source.merge! node[:tinyproxy][:filters]
+  end
+
+  source.each do |group, rules|
     filters[group] = rules.map do |rule|
       if rule =~ /\d+\.\d+\.\d+\.\d+\/\d+/
         IPAddr.new(rule).to_range.map { |i| i.to_s }

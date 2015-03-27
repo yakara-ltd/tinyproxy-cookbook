@@ -38,4 +38,4 @@ default[:tinyproxy][:conf] = {
 }
 
 # What are the allowed hosts we proxy to?
-default[:tinyproxy][:filters] = []
+default[:tinyproxy][:filters] = {}
