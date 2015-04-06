@@ -4,6 +4,10 @@
 # Given how chef attributes work, to remove something set,
 # set it to ""
 #
+#
+
+default[:tinyproxy][:conf_file] = '/etc/tinyproxy/tinyproxy.conf'
+
 # Note that some conf values need to be in quotes.
 default[:tinyproxy][:conf] = {
   "User" => "nobody",
@@ -36,6 +40,14 @@ default[:tinyproxy][:conf] = {
   #"FilterDefaultDeny" => "Yes",
   "ConnectPort" => [ 443 ],
 }
+
+# platform-specific differences
+case node['platform_family']
+when 'rhel', 'fedora'
+  default[:tinyproxy][:conf_file] = '/etc/tinyproxy/tinyproxy.conf'
+  default[:tinyproxy][:conf]['User'] = 'tinyproxy'
+  default[:tinyproxy][:conf]['Group'] = 'tinyproxy'
+end
 
 # What are the allowed hosts we proxy to?
 default[:tinyproxy][:filters] = {}

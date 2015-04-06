@@ -4,7 +4,7 @@ service "tinyproxy" do
   action :enable
 end
 
-template "/etc/tinyproxy.conf" do
+template node[:tinyproxy][:conf_file] do
   source "tinyproxy.conf.erb"
   owner "root"
   group "root"
@@ -29,7 +29,8 @@ if(not filter_file.nil? and not filter_file.tr('"\'', '').empty? )
   end
 
   source.each do |group, rules|
-    filters[group] = rules.map do |rule|
+    Chef::Log.info("Group #{group}, rules #{rules.to_s}")
+    filters[group] = Array(rules).map do |rule|
       if rule =~ /\d+\.\d+\.\d+\.\d+\/\d+/
         IPAddr.new(rule).to_range.map { |i| i.to_s }
       else
