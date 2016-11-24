@@ -6,7 +6,7 @@
 #
 #
 
-default[:tinyproxy][:conf_file] = '/etc/tinyproxy/tinyproxy.conf'
+default[:tinyproxy][:conf_file] = '/etc/tinyproxy.conf'
 
 # Note that some conf values need to be in quotes.
 default[:tinyproxy][:conf] = {
